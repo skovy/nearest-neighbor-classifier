@@ -1,7 +1,6 @@
-from sklearn.neighbors import NearestNeighbors
-import numpy as np
-X = np.array([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]])
-nbrs = NearestNeighbors(n_neighbors=1, algorithm='auto').fit(X)
-distances, indices = nbrs.kneighbors(X)
-print(indices)
-print(distances)
+from src.nearest_neighbor import NearestNeighbor
+
+nn = NearestNeighbor()
+index = nn.nearest_neighbor_index([-4.74700000, 0.65203858, 0.05823739, 0.06729183, 0.00258966, 0.00000007])
+print(nn.data[index][0])
+print(nn.data[index][1])
