@@ -3,12 +3,12 @@ from src.track_data import TrackData
 import numpy as np
 
 class NearestNeighbor:
-    # n_neighbors - the number of neighbors to use
     # n_training_data - the number of samples to use as the training data
-    def __init__(self, n_neighbors = 1, n_training_data = 10):
+    # n_neighbors - the number of neighbors to use
+    def __init__(self, n_training_data = 10, n_neighbors = 1):
         # configurations for training
-        self.n_neighbors = n_neighbors
         self.n_training_data = n_training_data
+        self.n_neighbors = n_neighbors
 
         self.td = TrackData() # database used to load the training data
         self.data = [] # data structure to hold all of the training data
@@ -48,6 +48,9 @@ class NearestNeighbor:
 
         training_data = np.array(training_data)
         return NearestNeighbors(n_neighbors=self.n_neighbors, algorithm='auto').fit(training_data)
+
+    def nearest_neighbors(self, vector):
+        return self.neighbors.kneighbors([vector])
 
     # retrieve the index for the nearest neighbor to the vector passed in
     def nearest_neighbor_index(self, vector):

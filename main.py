@@ -27,10 +27,16 @@ en_track = en.track_attributes(sp_track).values()
 print("Danceability: " + str(en_track[0])) # printed to verify classification
 
 # find the nearest neighbor based on all of the data aside from the classification
-nn = NearestNeighbor()
+nn = NearestNeighbor(n_training_data, 3)
 index = nn.nearest_neighbor_index(en_track[1:])
 
 # print the closest track and it's classification
+print(index)
 print(nn.index_to_track_title(index))
 print(nn.index_to_track_classification(index))
 print(sp.spotify_uri_to_url(nn.index_to_track_spotify_uri(index)))
+
+# print the k closest neightbors and distances
+distances, indices = nn.nearest_neighbors(en_track[1:])
+print(distances)
+print(indices)
