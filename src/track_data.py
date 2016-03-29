@@ -16,6 +16,7 @@ class TrackData:
     # retrieve the data from the database
     def retrieve_data(self, limit_total=100):
         sql = """SELECT name,
+            spotify_uri,
             round(danceability::numeric, 8),
             round(loudness::numeric, 8),
             round(energy::numeric, 8),
@@ -29,7 +30,7 @@ class TrackData:
         for index, row in enumerate(self.cur.fetchall()):
             data.append([])
             for j, col in enumerate(row):
-                if j == 1:
+                if j == 2:
                     if col > 0.5:
                         data[index].append('danceable')
                     else:
