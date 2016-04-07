@@ -32,9 +32,10 @@ export ECHO_NEST_API_KEY='your-echonest-api-key'
 
 #### Run the script
 
-- `python main.py <spotify-uri> <n-training-data>`
+- `python main.py <spotify-uri> <n-training-data> <n_neighbors>`
   - `spotify-uri` *(required)*: the Spotify URI of the track to classify
   - `n-training-data` *(optional)*: the total number of tracks to use as training data
+  - `n_neighbors` *(optional)*: the number of neighbors to classify with
 - Spotify Authentication will open in your default browser (first time only)
 - Grant Access
 - Copy the URL to the terminal when prompted (contains the Spotify code)
