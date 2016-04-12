@@ -1,4 +1,5 @@
 from sklearn.neighbors import NearestNeighbors
+from sklearn.preprocessing import normalize
 from src.track_data import TrackData
 import numpy as np
 
@@ -46,11 +47,12 @@ class NearestNeighbor:
                     val = float(col)
                 training_data[i].append(val)
 
-        training_data = np.array(training_data)
+        training_data = normalize(np.array(training_data), norm = 'l2', axis = 0)
         return NearestNeighbors(n_neighbors=self.n_neighbors, algorithm='auto').fit(training_data)
 
     def nearest_neighbors(self, vector):
-        return self.neighbors.kneighbors([vector])
+        vector = normalize(np.array([vector]), norm='l2')
+        return self.neighbors.kneighbors(vector)
 
     # retrieve the index for the nearest neighbor to the vector passed in
     def nearest_neighbor_index(self, vector):
