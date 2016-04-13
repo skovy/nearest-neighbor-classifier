@@ -6,10 +6,12 @@ import numpy as np
 class NearestNeighbor:
     # n_training_data - the number of samples to use as the training data
     # n_neighbors - the number of neighbors to use
-    def __init__(self, n_training_data = 10, n_neighbors = 1):
+    def __init__(self, n_training_data = 10, n_neighbors = 1, index_of_attribute_to_classify = 0):
         # configurations for training
         self.n_training_data = n_training_data
         self.n_neighbors = n_neighbors
+        # add because the first two columns are meta data
+        self.index_of_attribute_to_classify = index_of_attribute_to_classify + 3
 
         self.td = TrackData() # database used to load the training data
         self.data = [] # data structure to hold all of the training data
@@ -26,13 +28,23 @@ class NearestNeighbor:
     def index_to_track_spotify_uri(self, index):
         return self.data[index][1]
 
+    # turn an index into track db id
+    def index_to_id(self, index):
+        return self.data[index][2]
+
     # turn an index into track classification
     def index_to_track_classification(self, index):
-        return self.data[index][2]
+        return self.data[index][self.index_of_attribute_to_classify]
 
     # load the track data from the database
     def load_data(self):
-        self.data = self.td.retrieve_data(self.n_training_data)
+        self.data = self.td.retrieve_data(self.n_training_data, self.index_of_attribute_to_classify)
+
+    # make the data valid to what we need
+    def validate_data(self, value):
+        if value != None:
+            return float(value)
+        return 0
 
     # train with our dataset
     def train(self):
@@ -41,13 +53,12 @@ class NearestNeighbor:
         training_data = []
         for i, row in enumerate(self.data):
             training_data.append([])
-            for col in row[3:]:
-                val = 0
-                if col != None:
-                    val = float(col)
-                training_data[i].append(val)
+            for j, col in enumerate(row[3:]): # ignore meta data
+                # skip the classification column
+                if j != self.index_of_attribute_to_classify - 3:
+                    training_data[i].append(self.validate_data(col))
 
-        training_data = normalize(np.array(training_data), norm = 'l2', axis = 0)
+        training_data = normalize(np.array(training_data), norm = 'l2', axis = 1)
         return NearestNeighbors(n_neighbors=self.n_neighbors, algorithm='auto').fit(training_data)
 
     def nearest_neighbors(self, vector):
