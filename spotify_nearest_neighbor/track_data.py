@@ -14,7 +14,7 @@ class TrackData:
             print "Unable to connect to the database."
 
     # retrieve the data from the database
-    def retrieve_data(self, limit_total, index_of_attribute_to_classify):
+    def retrieve_data(self, limit_total):
         sql = """SELECT name,
             spotify_uri,
             id,
@@ -30,15 +30,8 @@ class TrackData:
         data = []
         for index, row in enumerate(self.cur.fetchall()):
             data.append([])
-            for j, col in enumerate(row):
-                if j == index_of_attribute_to_classify:
-                    if col > 0.5:
-                        data[index].append(1)
-                    else:
-                        data[index].append(0)
-                else:
-                    data[index].append(col)
-
+            for col in row:
+                data[index].append(col)
         return data
 
     def close(self):
