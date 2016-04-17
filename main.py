@@ -39,9 +39,13 @@ print("Using track '" + sp_track['name'] + "' with " + attr + " of " + str(en_tr
 
 # find the nearest neighbor based on all of the data aside from the classification
 nn = NearestNeighbor(n_training_data, n_neighbors, index_of_attribute_to_classify)
-index = nn.nearest_neighbor_index(en_track[1:])
 
-del en_track[index_of_attribute_to_classify]
+smp = nn.get_sample_with_id(265)
+print(smp)
+en_track = smp.tolist()
+
+# del en_track[index_of_attribute_to_classify]
+index = nn.nearest_neighbor_index(en_track)
 
 # print the k closest neightbors and distances
 distances, indices = nn.nearest_neighbors(en_track)

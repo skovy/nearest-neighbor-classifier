@@ -15,6 +15,7 @@ class NearestNeighbor:
 
         self.td = TrackData() # database used to load the training data
         self.data = [] # data structure to hold all of the training data
+        self.training_data = []
 
         # load the training data
         self.load_data()
@@ -35,6 +36,11 @@ class NearestNeighbor:
     # turn an index into track classification
     def index_to_track_classification(self, index):
         return self.data[index][self.index_of_attribute_to_classify]
+
+    def get_sample_with_id(self, id):
+        for i, sample in enumerate(self.data):
+            if sample[2] == id:
+                return self.training_data[i]
 
     # load the track data from the database
     def load_data(self):
@@ -58,8 +64,8 @@ class NearestNeighbor:
                 if j != self.index_of_attribute_to_classify - 3:
                     training_data[i].append(self.validate_data(col))
 
-        training_data = normalize(np.array(training_data), norm = 'l2', axis = 1)
-        return NearestNeighbors(n_neighbors=self.n_neighbors, algorithm='auto').fit(training_data)
+        self.training_data = normalize(np.array(training_data), norm = 'l2', axis = 1)
+        return NearestNeighbors(n_neighbors=self.n_neighbors, algorithm='auto').fit(self.training_data)
 
     def nearest_neighbors(self, vector):
         vector = normalize(np.array([vector]), norm='l2')

@@ -6,13 +6,9 @@ classify new tracks using their audio summary and it's nearest neighbors.
 
 #### Install Dependencies
 
-- `sklearn` - Machine learning
-- `numpy`- Scientific computing
-- `scipy` - Math functions
-- `spotify` - Spotify Python Wrapper
-- `pyechonest` - Echonest Python Wrapper
-
-`pip install sklearn numpy scipy spotify pyechonest`
+```
+pip install -r requirements.txt
+```
 
 #### Setup
 
