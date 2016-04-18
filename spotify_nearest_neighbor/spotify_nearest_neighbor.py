@@ -13,8 +13,7 @@ class SpotifyNearestNeighbor:
 
     def perform(self):
         en = Echonest()
-        en_track = en.track_attributes(self.spotify_uri).values()
-
+        en_track = en.track_attributes(self.spotify_uri)
         nn = NearestNeighbor(self.n_training_data, self.n_neighbors)
 
         distances, indices = nn.nearest_neighbors(en_track)
@@ -23,5 +22,5 @@ class SpotifyNearestNeighbor:
         for index in indices[0]:
             print nn.data[index][2], nn.data[index][0]
             db_indices.append(nn.data[index][2])
-
+        print distances
         return db_indices;

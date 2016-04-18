@@ -53,23 +53,29 @@ class NearestNeighbor:
         training_data = []
         for i, row in enumerate(self.data):
             training_data.append([])
+
+            if row[2] == 210:
+                print row[3:]
+                print vector
             for j, col in enumerate(row[3:]): # ignore meta data
                 training_data[i].append(self.validate_data(col))
 
-        i = len(training_data)
         training_data.append([])
         for col in vector:
-            training_data[i].append(self.validate_data(col))
+            training_data[len(training_data) - 1].append(self.validate_data(col))
 
         self.training_data = normalize(np.array(training_data), norm = 'l2', axis = 1)
         v = self.training_data[len(self.training_data) - 1]
         self.training_data = self.training_data[:-1]
+        print v
+        for i, row in enumerate(self.data):
+            if row[2] == 210:
+                print self.training_data[i]
         self.neighbors = NearestNeighbors(n_neighbors=self.n_neighbors, algorithm='auto').fit(self.training_data)
         return v
 
     def nearest_neighbors(self, vector):
         v = self.train(vector)
-        print v
         return self.neighbors.kneighbors([v])
 
     # retrieve the index for the nearest neighbor to the vector passed in

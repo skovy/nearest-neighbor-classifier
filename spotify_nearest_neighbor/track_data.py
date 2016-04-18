@@ -24,7 +24,8 @@ class TrackData:
             round(speechiness::numeric, 8),
             round(liveness::numeric, 8),
             round(acousticness::numeric, 8),
-            round(instrumentalness::numeric, 8) FROM tracks LIMIT %s;"""
+            round(instrumentalness::numeric, 8) FROM tracks
+            ORDER BY id ASC LIMIT %s;"""
         self.cur.execute(sql, [limit_total])
 
         data = []
