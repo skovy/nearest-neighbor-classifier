@@ -20,7 +20,6 @@ class SpotifyNearestNeighbor:
 
         db_indices = []
         for index in indices[0]:
-            print nn.data[index][2], nn.data[index][0]
             db_indices.append(nn.data[index][2])
-        print distances
+
         return db_indices;
