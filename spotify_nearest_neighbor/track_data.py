@@ -1,4 +1,5 @@
 import psycopg2
+import os
 
 class TrackData:
     def __init__(self):
@@ -8,7 +9,11 @@ class TrackData:
 
     def connect(self):
         try:
-            self.conn = psycopg2.connect("dbname='spotifyechonest' user='owner' host='localhost' password='h4ck3r'")
+            host = int(os.environ.get("DATABASE_URL", 'localhost'))
+            dbname = int(os.environ.get("DBNAME", 'spotifyechonest'))
+            owner = int(os.environ.get("OWNER", 'owner'))
+            password = int(os.environ.get("PASSWORD", 'h4ck3r'))
+            self.conn = psycopg2.connect("dbname='" + dbname + "' user='" + owner + "' host='" + host + "' password='" + password + "'")
             self.cur = self.conn.cursor()
         except:
             print "Unable to connect to the database."
