@@ -1,5 +1,6 @@
 import psycopg2
 import os
+import urlparse
 
 class TrackData:
     def __init__(self):
@@ -9,11 +10,16 @@ class TrackData:
 
     def connect(self):
         try:
-            host = os.environ.get("DATABASE_URL", 'localhost')
-            dbname = os.environ.get("DBNAME", 'spotifyechonest')
-            owner = os.environ.get("OWNER", 'owner')
-            password = os.environ.get("PASSWORD", 'h4ck3r')
-            self.conn = psycopg2.connect("dbname='" + dbname + "' user='" + owner + "' host='" + host + "' password='" + password + "'")
+            urlparse.uses_netloc.append("postgres")
+            url = urlparse.urlparse(os.environ["DATABASE_URL"])
+
+            self.conn = psycopg2.connect(
+                database=url.path[1:],
+                user=url.username,
+                password=url.password,
+                host=url.hostname,
+                port=url.port
+            )
             self.cur = self.conn.cursor()
         except:
             print "Unable to connect to the database."
