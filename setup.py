@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='spotify_nearest_neighbor',
-      version='0.1',
+      version='0.2',
       description='Find the nearest Spotify track',
       url='http://github.com/Skovy/',
       author='Spencer',
