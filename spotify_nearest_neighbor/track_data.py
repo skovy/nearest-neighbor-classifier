@@ -9,10 +9,10 @@ class TrackData:
 
     def connect(self):
         try:
-            host = int(os.environ.get("DATABASE_URL", 'localhost'))
-            dbname = int(os.environ.get("DBNAME", 'spotifyechonest'))
-            owner = int(os.environ.get("OWNER", 'owner'))
-            password = int(os.environ.get("PASSWORD", 'h4ck3r'))
+            host = os.environ.get("DATABASE_URL", 'localhost')
+            dbname = os.environ.get("DBNAME", 'spotifyechonest')
+            owner = os.environ.get("OWNER", 'owner')
+            password = os.environ.get("PASSWORD", 'h4ck3r')
             self.conn = psycopg2.connect("dbname='" + dbname + "' user='" + owner + "' host='" + host + "' password='" + password + "'")
             self.cur = self.conn.cursor()
         except:
